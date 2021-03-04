@@ -24,12 +24,20 @@ export class UsersService {
         const userSignIn = await this.usersRepository.findOne({
             where: {
                 mail: mail,
-                password: password,
             }
         });
         if (userSignIn === null) {
            return 'check your mail or password again';
         }
         return userSignIn;
+    }
+
+    async findByMail(mail: string): Promise<User> {
+        const userResultByMail = await this.usersRepository.findOne({
+            where: {
+                mail: mail,
+            }
+        });
+        return userResultByMail;
     }
 }

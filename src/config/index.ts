@@ -7,6 +7,12 @@ const DatabaseConfig = {
     Host: process.env.DB_HOST,
 }
 
+const AuthConfig = {
+    Secret: process.env.AUTH_SECRET,
+    Expires: process.env.AUTH_EXPIRES,
+}
+
 export {
     DatabaseConfig,
+    AuthConfig,
 }
