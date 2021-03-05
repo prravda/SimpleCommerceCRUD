@@ -18,12 +18,12 @@ export class AppController {
     return 'hi';
   }
 
-  @UseGuards(LocalAuthGuard)
-  @Post('auth/signin')
-  async signin(@Request() req) {
-    const result = await this.authService.signin(req.user);
-    return result;
-  }
+  // @UseGuards(LocalAuthGuard)
+  // @Post('auth/signin')
+  // async signin(@Request() req) {
+  //   const result = await this.authService.signin(req.user);
+  //   return result;
+  // }
 
   @UseGuards(JwtAuthGuard)
   @Get('profile')
