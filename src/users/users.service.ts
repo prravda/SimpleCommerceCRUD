@@ -6,30 +6,20 @@ import { User } from './user.entity'
 export class UsersService {
     constructor(@Inject('USERS_REPOSITORY') private usersRepository: typeof User) {}
 
-    async createUser({ name, mail, password }: UserSignUp): Promise<User | string> {
-        const [userToCreate, isCreated] = await this.usersRepository.findOrCreate({
-            where: {
-                name: name,
-                password: password,
-                mail: mail,
-            }
+    async createUser({ name, mail, password }: UserSignUp): Promise<any> {
+        return await this.usersRepository.create<any>({
+            name: name,
+            mail: mail,
+            password: password,
         });
-        if (isCreated) {
-            return userToCreate;
-        }
-        return `name or mail is duplicated`;
     }
 
-    async findUser({ mail, password }: UserSignIn): Promise<User | string> {
-        const userSignIn = await this.usersRepository.findOne({
+    async findByMail(mail: string): Promise<User | null> {
+        const userResultByMail = await this.usersRepository.findOne({
             where: {
                 mail: mail,
-                password: password,
             }
         });
-        if (userSignIn === null) {
-           return 'check your mail or password again';
-        }
-        return userSignIn;
+        return userResultByMail;
     }
 }
