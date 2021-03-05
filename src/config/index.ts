@@ -12,7 +12,12 @@ const AuthConfig = {
     Expires: process.env.AUTH_EXPIRES,
 }
 
+const CryptConfig = {
+    SaltRounds: process.env.CRYPT_SALT,
+}
+
 export {
     DatabaseConfig,
     AuthConfig,
+    CryptConfig,
 }

@@ -13,4 +13,10 @@ export class UsersController {
     const result = await this.usersService.createUser(userSignUp);
     return result;
   }
+
+  @Post('signin')
+  async findByMail(@Body() userSignIn: UserSignIn) {
+    const result = await this.usersService.findByMail(userSignIn.mail);
+    return result;
+  }
 }

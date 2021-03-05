@@ -6,6 +6,8 @@ import { User } from './user.entity'
 export class UsersService {
     constructor(@Inject('USERS_REPOSITORY') private usersRepository: typeof User) {}
 
+    // 일단은 pw를 제외한 user info 를 보내주어야 해서 임시로 any type 을 걸어놓았음
+    // dto 를 중복되는 코드없이 깔끔하게 짜보자
     async createUser({ name, mail, password }: UserSignUp): Promise<User | string> {
         const [userToCreate, isCreated] = await this.usersRepository.findOrCreate({
             where: {
@@ -32,7 +34,7 @@ export class UsersService {
         return userSignIn;
     }
 
-    async findByMail(mail: string): Promise<User> {
+    async findByMail(mail: string): Promise<User | null> {
         const userResultByMail = await this.usersRepository.findOne({
             where: {
                 mail: mail,

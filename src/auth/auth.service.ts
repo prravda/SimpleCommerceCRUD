@@ -3,6 +3,9 @@ import {UsersService} from "../users/users.service";
 import {UserSignIn} from "../users/interfaces/user.interface";
 import {JwtService} from "@nestjs/jwt";
 
+import { CryptConfig } from "../config";
+import * as bcrypt from 'bcrypt';
+
 
 @Injectable()
 export class AuthService {
@@ -10,12 +13,11 @@ export class AuthService {
         private userService: UsersService,
         private jwtService: JwtService,
     ) {}
-    // 같은 형태의 값으로 넘겨주는 과정을 제대로 처리하지 못 해 Unauthorized 를 return 한다.
-    // 일어나서 이 부분을 다시 잡아봅시다.
-    async validateUser({ mail, password }: UserSignIn): Promise<any> {
+
+    async validateUser(mail: string, password: string): Promise<any> {
         const user = await this.userService.findByMail(mail);
         if (user && user.password === password) {
-            const { password, ...result } = user;
+            const { password, ...result } = user['dataValues'];
             return result;
         }
         return null;
@@ -26,5 +28,20 @@ export class AuthService {
         return {
             access_token: this.jwtService.sign(payload),
         };
+    }
+
+    public async cryptPassword(password: string): Promise<string> {
+        const hashedPassword = await bcrypt.hash(password, CryptConfig.SaltRounds);
+        return hashedPassword;
+    }
+
+    public async comparePassword(plain: string, hashed: string): Promise<boolean> {
+       const result = await bcrypt.compare(plain, hashed);
+       return result;
+    }
+
+    public async signup(user: any) {
+        const { name, mail, password } = user;
+        const hashedPasswrod = this.cryptPassword(password);
     }
 }
