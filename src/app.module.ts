@@ -22,7 +22,6 @@ import {AuthService} from "./auth/auth.service";
   providers: [
       AppService,
       OrdersService,
-      AuthService,
   ],
   controllers: [
       AppController,
