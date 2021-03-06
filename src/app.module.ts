@@ -6,6 +6,9 @@ import { UsersModule } from './users/users.module';
 import {ConfigModule} from "@nestjs/config";
 import { OrdersService } from './orders/orders.service';
 import { OrdersModule } from './orders/orders.module';
+import { AuthModule } from './auth/auth.module';
+import {AuthController} from "./auth/auth.controller";
+import {AuthService} from "./auth/auth.service";
 
 @Module({
   imports: [
@@ -14,8 +17,17 @@ import { OrdersModule } from './orders/orders.module';
           isGlobal: true,
       }),
       OrdersModule,
+      AuthModule,
   ],
-  controllers: [AppController, UsersController],
-  providers: [AppService, OrdersService],
+  providers: [
+      AppService,
+      OrdersService,
+      AuthService,
+  ],
+  controllers: [
+      AppController,
+      UsersController,
+      AuthController
+  ],
 })
 export class AppModule {}
