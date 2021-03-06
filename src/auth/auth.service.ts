@@ -22,13 +22,18 @@ export class AuthService {
 
         if (isRightPassword) {
             const { password, ...result } = user;
-            return result;
+            console.log(result['dataValues']);
+            return result['dataValues'];
         }
+
         return null;
     }
 
     async signin(user: User) {
-        const payload = { mail: user.mail, sub: user.id };
+        const payload = {
+            id: user.id,
+            mail: user.mail,
+        };
         return {
             access_token: this.jwtService.sign(payload),
         };
@@ -38,14 +43,15 @@ export class AuthService {
         const { name, mail, password } = userSignIn;
         const hashedPassword = await this.cryptPassword(password);
 
-        const { createdUser, isCreated } = await this.userService.createUser({
+        const { user, isCreated } = await this.userService.createUser({
             name: name,
             mail: mail,
             password: hashedPassword,
         });
 
         if (isCreated) {
-            return createdUser;
+            const { password, ...result } = user['dataValues'];
+            return result;
         }
         return 'your mail is duplicated, check again';
     }
