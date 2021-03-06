@@ -4,8 +4,11 @@ import { AppService } from './app.service';
 import { UsersController } from './users/users.controller';
 import { UsersModule } from './users/users.module';
 import {ConfigModule} from "@nestjs/config";
+import { OrdersService } from './orders/orders.service';
+import { OrdersModule } from './orders/orders.module';
 import { AuthModule } from './auth/auth.module';
 import {AuthController} from "./auth/auth.controller";
+import {AuthService} from "./auth/auth.service";
 
 @Module({
   imports: [
@@ -13,9 +16,17 @@ import {AuthController} from "./auth/auth.controller";
       ConfigModule.forRoot({
           isGlobal: true,
       }),
+      OrdersModule,
       AuthModule,
   ],
-  controllers: [AppController, UsersController, AuthController],
-  providers: [AppService],
+  providers: [
+      AppService,
+      OrdersService,
+  ],
+  controllers: [
+      AppController,
+      UsersController,
+      AuthController
+  ],
 })
 export class AppModule {}
