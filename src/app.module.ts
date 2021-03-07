@@ -8,7 +8,8 @@ import { OrdersService } from './orders/orders.service';
 import { OrdersModule } from './orders/orders.module';
 import { AuthModule } from './auth/auth.module';
 import {AuthController} from "./auth/auth.controller";
-import {AuthService} from "./auth/auth.service";
+import {CouponsModule} from "./coupons/coupons.module";
+
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import {AuthService} from "./auth/auth.service";
       }),
       OrdersModule,
       AuthModule,
+      CouponsModule,
   ],
   providers: [
       AppService,
@@ -26,7 +28,7 @@ import {AuthService} from "./auth/auth.service";
   controllers: [
       AppController,
       UsersController,
-      AuthController
+      AuthController,
   ],
 })
 export class AppModule {}

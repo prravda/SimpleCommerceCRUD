@@ -21,3 +21,16 @@ export {
     AuthConfig,
     CryptConfig,
 }
+
+// class Config {
+//     private static _AuthSecret = process.env.AUTH_SECRET;
+//     private static _CryptoSaltRound = process.env.CRYPT_SALT;
+//
+//     static get AuthSecret(): string {
+//         return this._AuthSecret;
+//     }
+//
+//     static get CryptoSaltRound(): string {
+//         return this._CryptoSaltRound;
+//     }
+// }

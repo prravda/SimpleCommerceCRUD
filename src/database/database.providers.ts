@@ -1,5 +1,8 @@
 import { Sequelize} from "sequelize-typescript";
 import { User } from '../users/user.entity';
+import {CouponType} from "../coupons/entities/couponTypes.entity";
+import {Coupon} from "../coupons/entities/coupons.entity";
+import {CouponUUID} from "../coupons/entities/couponUUIDs.entity";
 
 export const databaseProviders = [
     {
@@ -15,6 +18,9 @@ export const databaseProviders = [
             });
             sequelize.addModels([
                 User,
+                Coupon,
+                CouponType,
+                CouponUUID,
             ]);
             await sequelize.sync();
             return sequelize;
