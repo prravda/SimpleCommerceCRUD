@@ -1,7 +1,8 @@
-import {Table, Column, Model, BelongsTo, HasOne, AllowNull, Unique, Default} from 'sequelize-typescript';
+import {Table, Column, Model, BelongsTo, HasOne, AllowNull, Unique, Default, ForeignKey} from 'sequelize-typescript';
 import { User } from '../../users/user.entity';
 import { CouponType } from "./couponTypes.entity";
 import {Coupon} from "./coupons.entity";
+import {Order} from "../../orders/entities/orders.entity";
 
 @Table
 export class CouponUUID extends Model {
@@ -9,11 +10,13 @@ export class CouponUUID extends Model {
     @Column
     uuid_serial: string;
 
+    @ForeignKey(() => User)
     @AllowNull
     @Default(null)
     @Column
     user_id: number;
 
+    @ForeignKey(() => Order)
     @AllowNull
     @Default(null)
     @Column

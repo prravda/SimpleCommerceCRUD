@@ -3,6 +3,9 @@ import { User } from '../users/user.entity';
 import {CouponType} from "../coupons/entities/couponTypes.entity";
 import {Coupon} from "../coupons/entities/coupons.entity";
 import {CouponUUID} from "../coupons/entities/couponUUIDs.entity";
+import {Order} from "../orders/entities/orders.entity";
+import {OrderStatus} from "../orders/entities/orderStatus.entity";
+import {Product} from "../orders/entities/products.entity";
 
 export const databaseProviders = [
     {
@@ -21,6 +24,9 @@ export const databaseProviders = [
                 Coupon,
                 CouponType,
                 CouponUUID,
+                Order,
+                OrderStatus,
+                Product,
             ]);
             await sequelize.sync();
             return sequelize;

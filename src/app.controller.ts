@@ -14,7 +14,7 @@ export class AppController {
   ) {}
 
   @Get()
-  async sayHi() {
+  async getHello() {
     return 'hi';
   }
 
