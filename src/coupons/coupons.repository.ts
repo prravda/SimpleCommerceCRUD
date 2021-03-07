@@ -4,16 +4,9 @@ import {CouponDTO, CouponTypeDTO, CouponUUIDDTO, CouponAndCouponUUIDDTO} from ".
 
 import * as cryptoRandomString from "crypto-random-string";
 import { CouponType } from "./entities/couponTypes.entity";
-import {CouponUUID} from "./entities/couponUUIDs.entity";
 import {AbstractCouponsRepository} from "./coupons.abstract.repository";
 
 export class CouponsRepository extends AbstractCouponsRepository {
-
-    async createCouponUUIDAndCoupon({ couponDTO, couponUUIDDTO }: CouponAndCouponUUIDDTO): Promise<CouponDTO> {
-        const createdCouponUUID = await this.createCouponUUID(couponUUIDDTO);
-        const couponDTOWithGeneratedUUID = Object.assign(couponDTO, { uuid_id: createdCouponUUID.id })
-        return await this.createCoupon(couponDTOWithGeneratedUUID);
-    }
 
     async createCoupon(couponDTO: CouponDTO): Promise<Coupon> {
         const { type_id, uuid_id, used } = couponDTO;
@@ -37,19 +30,6 @@ export class CouponsRepository extends AbstractCouponsRepository {
             discount_value: discount_value,
             refundable: refundable,
         })
-    };
-
-    async createCouponUUID(couponUUIDDTO: CouponUUIDDTO): Promise<CouponUUID> {
-        const {
-            user_id,
-            order_id,
-        } = couponUUIDDTO;
-
-        return await CouponUUID.create({
-            uuid_serial: this.createCouponUUIDSerial(),
-            user_id: user_id,
-            order_id: order_id,
-        });
     };
 
     async setCouponUsed(id: number) {

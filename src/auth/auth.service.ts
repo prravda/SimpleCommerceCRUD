@@ -61,10 +61,6 @@ export class AuthService {
             if (createdUser === null) {
                 return new Error('CreateUser-AuthError: duplicated mail');
             }
-            const couponUUIDInfo = { user_id: createdUser.id, order_id: null } as CouponUUIDDTO;
-            this.couponsService.createCouponUUIDAndCoupon()
-            return createdUser;
-
         // } catch(e) {
         //     throw new Error('CreateUser-AuthError: check parameter again')
         // }

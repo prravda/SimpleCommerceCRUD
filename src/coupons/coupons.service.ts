@@ -5,20 +5,11 @@ import * as cryptoRandomString from "crypto-random-string";
 import {CouponType} from "./entities/couponTypes.entity";
 import {CouponsRepository} from "./coupons.repository";
 import {CouponAndCouponUUIDDTO, CouponDTO, CouponTypeDTO, CouponUUIDDTO} from "./coupons.dto";
-import {CouponUUID} from "./entities/couponUUIDs.entity";
 
 export class CouponsService {
     private couponsRepository: CouponsRepository;
     constructor(couponsRepository: CouponsRepository) {
         this.couponsRepository = couponsRepository;
-    }
-
-    async createCouponUUIDAndCoupon(couponAndCouponUUIDDTO: CouponAndCouponUUIDDTO): Promise<CouponDTO> {
-        try {
-            return await this.couponsRepository.createCouponUUIDAndCoupon(couponAndCouponUUIDDTO);
-        } catch (e) {
-            throw e;
-        }
     }
 
     async createCoupon(couponDTO: CouponDTO): Promise<Coupon> {
@@ -35,15 +26,6 @@ export class CouponsService {
             return await this.couponsRepository.createCouponType(couponTypeDTO);
         } catch (e) {
             throw new Error('CreateCouponTypeError: check parameters again');
-        }
-    };
-
-    async createCouponUUID(couponUUIDDTO: CouponUUIDDTO): Promise<CouponUUID> {
-        try {
-            return await this.couponsRepository.createCouponUUID(couponUUIDDTO);
-        }
-        catch (e) {
-            throw new Error('CreateCouponUUIDError: check parameter again');
         }
     };
 

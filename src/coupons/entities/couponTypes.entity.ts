@@ -2,12 +2,6 @@ import {
     Table,
     Column,
     Model,
-    DataType,
-    ForeignKey,
-    BelongsTo,
-    Default,
-    AllowNull,
-    Unique,
     HasMany
 } from 'sequelize-typescript';
 import { Coupon } from "./coupons.entity";
@@ -28,5 +22,5 @@ export class CouponType extends Model {
 
     // relation
     @HasMany(() => Coupon, 'type_id')
-    coupon: Coupon[]
+    coupons: Coupon[]
 }

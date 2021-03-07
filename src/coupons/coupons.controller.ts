@@ -8,8 +8,7 @@ export class CouponsController {
     // api for test to generate coupon
     @Post('create')
     async createCoupon(@Body() couponAndCouponUUIDDTO: CouponAndCouponUUIDDTO) {
-        const result = await this.couponsService.createCouponUUIDAndCoupon(couponAndCouponUUIDDTO);
-        return await this.couponsService.createCouponUUIDAndCoupon(couponAndCouponUUIDDTO);
+        // fill this
     }
 
     @Post('create-type')

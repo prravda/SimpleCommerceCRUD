@@ -5,32 +5,35 @@ import {
     ForeignKey,
     BelongsTo,
     Default,
-    AllowNull,
+    AllowNull, Unique,
 } from 'sequelize-typescript';
 import { CouponType } from "./couponTypes.entity";
-import { CouponUUID } from "./couponUUIDs.entity";
+import {Order} from "../../orders/entities/orders.entity";
+import {User} from "../../users/entities/user.entity";
 
 @Table
 export class Coupon extends Model {
-    // allowing null to handle create coupon without user
+    @Unique
+    @Column
+    uuid: string;
+
     @AllowNull
     @ForeignKey(() => CouponType)
     @Column
     type_id: number;
 
     @AllowNull
-    @ForeignKey(() => CouponType)
+    @ForeignKey(() => Order)
     @Column
-    uuid_id: number;
+    order_id: number;
 
     @Default(false)
     @Column
     used: boolean;
 
     // relation
-    @BelongsTo(() => CouponUUID, 'uuid_id')
-    couponUUID: CouponUUID
-
+    @BelongsTo(() => User, 'user_id')
+    user: User
     @BelongsTo(() => CouponType, 'type_id')
     couponType: CouponType
 }

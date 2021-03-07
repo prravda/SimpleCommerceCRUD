@@ -1,8 +1,7 @@
-import {Table, Column, Model, BelongsTo, ForeignKey, HasOne, HasMany} from 'sequelize-typescript';
+import {Table, Column, Model, BelongsTo, ForeignKey, HasMany, AllowNull, Default} from 'sequelize-typescript';
 import {User} from "../../users/entities/user.entity";
 import {OrderStatus} from "./orderStatus.entity";
-import {Product} from "./products.entity";
-import {CouponUUID} from "../../coupons/entities/couponUUIDs.entity";
+import {Coupon} from "../../coupons/entities/coupons.entity";
 
 @Table
 export class Order extends Model {
@@ -10,27 +9,38 @@ export class Order extends Model {
     @Column
     user_id: number;
 
-    @ForeignKey(() => Product)
-    @Column
-    product_id: number;
-
     @ForeignKey(() => OrderStatus)
     @Column
     status_id: number;
 
     @Column
+    product_name: string;
+
+    @Column
+    raw_price: number;
+
+    @AllowNull
+    @Column
     purchased_price: number;
 
+    @Default('KRW')
+    @Column
+    currency: string;
+
+    @Column
+    url: string;
+
+    @Column
+    contact: string;
+
+    @Default(false)
     @Column
     redundant: boolean;
 
 
     //relation
-    @HasOne(() => Product, 'product_id')
-    product: Product
-
-    @HasMany(() => CouponUUID, 'order_id')
-    couponUUIDs: CouponUUID[]
+    @HasMany(() => Coupon, 'order_id')
+    coupons: Coupon[]
 
     @BelongsTo(() => OrderStatus, 'status_id')
     order_status: OrderStatus
