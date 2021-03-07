@@ -1,22 +1,24 @@
-export interface CouponDTO {
-    type_id: number;
-    uuid_id?: number;
-    used?: boolean;
+export interface CreateOrderDTO {
+    user_id: number;
+    product_id: number;
+    status_id: number;
+    purchased_price: number;
+    redundant: boolean;
 }
 
-export interface CouponTypeDTO {
-    coupon_name: string;
-    discount_type: string;
-    discount_value: number;
-    refundable: boolean;
+export interface CreateProductDTO {
+    name: string;
+    price: number;
+    currency: string;
+    url: string;
+    contact: string;
 }
 
-export interface CouponUUIDDTO {
-    user_id?: number;
-    order_id?: number;
+export interface CreateOrderStatusDTO {
+    status: string;
 }
 
-export interface CouponAndCouponUUIDDTO {
-    couponDTO: CouponDTO;
-    couponUUIDDTO?: CouponUUIDDTO;
+export interface SetOrderStatusDTO {
+    id: number;
+    newStatus: string;
 }

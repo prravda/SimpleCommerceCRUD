@@ -5,7 +5,7 @@ import {Product} from "./products.entity";
 import {CouponUUID} from "../../coupons/entities/couponUUIDs.entity";
 
 @Table
-export class Order extends Model<Order> {
+export class Order extends Model {
     @ForeignKey(() => User)
     @Column
     user_id: number;
@@ -17,6 +17,9 @@ export class Order extends Model<Order> {
     @ForeignKey(() => OrderStatus)
     @Column
     status_id: number;
+
+    @Column
+    purchased_price: number;
 
     @Column
     redundant: boolean;

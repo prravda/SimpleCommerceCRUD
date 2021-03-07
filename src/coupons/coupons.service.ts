@@ -7,7 +7,6 @@ import {CouponsRepository} from "./coupons.repository";
 import {CouponAndCouponUUIDDTO, CouponDTO, CouponTypeDTO, CouponUUIDDTO} from "./coupons.dto";
 import {CouponUUID} from "./entities/couponUUIDs.entity";
 
-@Injectable()
 export class CouponsService {
     private couponsRepository: CouponsRepository;
     constructor(couponsRepository: CouponsRepository) {
