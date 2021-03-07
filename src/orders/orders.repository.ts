@@ -7,13 +7,18 @@ import {Product} from "./entities/products.entity";
 export class OrdersRepository extends AbstractOrdersRepository {
     async createOrder(createOrderDTO: CreateOrderDTO): Promise<Order> {
         const { user_id, product_id, status_id, purchased_price, redundant } = createOrderDTO;
-        return await Order.create({
+        return await Order.create(
+            {
             user_id: user_id,
             product_id: product_id,
             status_id: status_id,
             purchased_price: purchased_price,
             redundant: redundant,
-        });
+            },
+            {
+
+            }
+        );
     }
     async createOrderStatus(createOrderStatusDTO: CreateOrderStatusDTO): Promise<OrderStatus> {
         const { status } = createOrderStatusDTO;

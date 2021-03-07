@@ -1,64 +1,73 @@
-import { Injectable } from '@nestjs/common';
+import {HttpException, HttpStatus, Injectable} from '@nestjs/common';
 import {UsersService} from "../users/users.service";
-import {UserSignIn, UserSignUp} from "../users/interfaces/user.interface";
+import {CreateUserDTO, SignInUserDTO} from "../users/users.dto";
 import {JwtService} from "@nestjs/jwt";
 
-import { User } from '../users/user.entity';
+import { User } from '../users/entities/user.entity';
 
 import { CryptConfig } from "../config";
 import * as bcrypt from 'bcrypt';
+
+import { UsersRepository } from "../users/users.repository";
+import {CouponsService} from "../coupons/coupons.service";
+
+import { CouponUUIDDTO } from "../coupons/coupons.dto";
 
 
 @Injectable()
 export class AuthService {
     constructor(
-        private userService: UsersService,
+        private usersRepository: UsersRepository,
         private jwtService: JwtService,
+        private couponsService: CouponsService,
     ) {}
 
     async validateUser(mail: string, password: string): Promise<any> {
-        const user = await this.userService.findByMail(mail);
+        const user = await this.usersRepository.findByMail(mail);
         const isRightPassword = await this.comparePassword(password, user.password);
 
         if (isRightPassword) {
             const { password, ...result } = user;
-            console.log(result['dataValues']);
             return result['dataValues'];
         }
-
-        return null;
+        throw new HttpException('Invalid Credentials', HttpStatus.UNAUTHORIZED);
     }
 
     async signin(user: User) {
-        const payload = {
-            id: user.id,
-            mail: user.mail,
-        };
-        return {
-            access_token: this.jwtService.sign(payload),
-        };
+        try {
+            const payload = {
+                id: user.id,
+                mail: user.mail,
+            };
+            return {
+                access_token: this.jwtService.sign(payload),
+            };
+        }
+        catch (e) {
+            throw new Error('SignInUser-AuthError: check parameter again');
+        }
     }
 
-    public async signup(userSignUp) {
-        const { name, mail, password } = userSignUp;
-        const hashedPassword = await this.cryptPassword(password);
+    public async signup({ name, mail, password }: CreateUserDTO) {
+        // try {
+            const hashedPassword = await this.cryptPassword(password);
 
-        /**
-         * instance 를 찍어내는 방법? class 도 있을거고(factory pattern...), 이게 제일 정석이다.
-         * 그러나 통상적으로는 as 로 casting 을 해주면 된다... 뭐하러 굳이?
-         */
+            const createdUser = await this.usersRepository.createUser({
+                name: name,
+                mail: mail,
+                password: hashedPassword,
+            } as CreateUserDTO);
 
-        const { user, isCreated } = await this.userService.createUser({
-            name: name,
-            mail: mail,
-            password: hashedPassword,
-        } as UserSignUp);
+            if (createdUser === null) {
+                return new Error('CreateUser-AuthError: duplicated mail');
+            }
+            const couponUUIDInfo = { user_id: createdUser.id, order_id: null } as CouponUUIDDTO;
+            this.couponsService.createCouponUUIDAndCoupon()
+            return createdUser;
 
-        if (isCreated) {
-            const { password, ...result } = user['dataValues'];
-            return result;
-        }
-        return 'your mail is duplicated, check again';
+        // } catch(e) {
+        //     throw new Error('CreateUser-AuthError: check parameter again')
+        // }
     }
 
     // 접근자를 잘 써라. 외부에서 사용할 일이 없는 method 는 전부 private 으로!

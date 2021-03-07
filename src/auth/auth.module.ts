@@ -7,17 +7,26 @@ import { JwtModule } from "@nestjs/jwt";
 import { AuthConfig } from "../config";
 import {JwtStrategy} from "./jwt.strategy";
 import { AuthController } from './auth.controller';
+import {UsersRepository} from "../users/users.repository";
+import {CouponsModule} from "../coupons/coupons.module";
+import {CouponsService} from "../coupons/coupons.service";
 
 @Module({
   imports: [
-      UsersModule,
       PassportModule,
       JwtModule.register({
         secret: String(AuthConfig.Secret),
         signOptions: { expiresIn: '120s' },
       }),
+      CouponsModule,
   ],
-  providers: [AuthService, LocalStrategy, JwtStrategy],
+  providers: [
+      AuthService,
+      LocalStrategy,
+      JwtStrategy,
+      UsersRepository,
+      CouponsService,
+  ],
   exports: [AuthService],
   controllers: [AuthController],
 })

@@ -1,5 +1,5 @@
 import {Table, Column, Model, BelongsTo, HasOne, AllowNull, Unique, Default, ForeignKey} from 'sequelize-typescript';
-import { User } from '../../users/user.entity';
+import { User } from '../../users/entities/user.entity';
 import { CouponType } from "./couponTypes.entity";
 import {Coupon} from "./coupons.entity";
 import {Order} from "../../orders/entities/orders.entity";
