@@ -4,11 +4,10 @@ import { AppService } from './app.service';
 import { UsersController } from './users/users.controller';
 import { UsersModule } from './users/users.module';
 import {ConfigModule} from "@nestjs/config";
-import { OrdersService } from './orders/orders.service';
+import { OrdersService} from "./orders/orders.service";
 import { OrdersModule } from './orders/orders.module';
 import { AuthModule } from './auth/auth.module';
 import {AuthController} from "./auth/auth.controller";
-import {CouponsModule} from "./coupons/coupons.module";
 
 
 @Module({
@@ -19,7 +18,6 @@ import {CouponsModule} from "./coupons/coupons.module";
       }),
       OrdersModule,
       AuthModule,
-      CouponsModule,
   ],
   providers: [
       AppService,

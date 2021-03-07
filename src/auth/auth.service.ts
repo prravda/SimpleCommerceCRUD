@@ -11,8 +11,6 @@ import * as bcrypt from 'bcrypt';
 import { UsersRepository } from "../users/users.repository";
 import {CouponsService} from "../coupons/coupons.service";
 
-import { CouponUUIDDTO } from "../coupons/coupons.dto";
-
 
 @Injectable()
 export class AuthService {
@@ -22,7 +20,7 @@ export class AuthService {
         private couponsService: CouponsService,
     ) {}
 
-    async validateUser(mail: string, password: string): Promise<any> {
+    public async validateUser(mail: string, password: string): Promise<any> {
         const user = await this.usersRepository.findByMail(mail);
         const isRightPassword = await this.comparePassword(password, user.password);
 
@@ -33,7 +31,7 @@ export class AuthService {
         throw new HttpException('Invalid Credentials', HttpStatus.UNAUTHORIZED);
     }
 
-    async signin(user: User) {
+    public async signin(user: User) {
         try {
             const payload = {
                 id: user.id,
@@ -49,31 +47,34 @@ export class AuthService {
     }
 
     public async signup({ name, mail, password }: CreateUserDTO) {
-        // try {
-            const hashedPassword = await this.cryptPassword(password);
+        const hashedPassword = await this.cryptPassword(password);
 
-            const createdUser = await this.usersRepository.createUser({
-                name: name,
-                mail: mail,
-                password: hashedPassword,
-            } as CreateUserDTO);
+        const createdUser = await this.usersRepository.createUser({
+            name: name,
+            mail: mail,
+            password: hashedPassword,
+        } as CreateUserDTO);
 
-            if (createdUser === null) {
-                return new Error('CreateUser-AuthError: duplicated mail');
-            }
-        // } catch(e) {
-        //     throw new Error('CreateUser-AuthError: check parameter again')
-        // }
+        if (createdUser === null) {
+            return new Error('CreateUser-AuthError: duplicated mail');
+        }
+        return `${name} is created with ${mail}`;
     }
 
-    // 접근자를 잘 써라. 외부에서 사용할 일이 없는 method 는 전부 private 으로!
     private async cryptPassword(password: string): Promise<string> {
-        const hashedPassword = await bcrypt.hash(password, Number(CryptConfig.SaltRounds));
-        return hashedPassword;
+        try {
+            const hashedPassword = await bcrypt.hash(password, Number(CryptConfig.SaltRounds));
+            return hashedPassword;
+        } catch(e) {
+            throw new HttpException('Error-CryptPassword', HttpStatus.CONFLICT);
+        }
     }
 
     private async comparePassword(plain: string, hashed: string): Promise<boolean> {
-       const result = await bcrypt.compare(plain, hashed);
-       return result;
+        try {
+            return await bcrypt.compare(plain, hashed)
+        } catch(e) {
+            throw new HttpException('Error-ComparePassword', HttpStatus.CONFLICT);
+        }
     }
 }

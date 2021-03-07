@@ -16,7 +16,7 @@ import {CouponsService} from "../coupons/coupons.service";
       PassportModule,
       JwtModule.register({
         secret: String(AuthConfig.Secret),
-        signOptions: { expiresIn: '120s' },
+        signOptions: { expiresIn: '62m' },
       }),
       CouponsModule,
   ],

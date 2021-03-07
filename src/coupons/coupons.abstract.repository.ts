@@ -1,16 +1,14 @@
-import {CouponDTO, CouponTypeDTO, CouponUUIDDTO} from "./coupons.dto";
+import {CreateCouponDTO, CouponTypeDTO, ApplyCouponsToOrderDTO} from "./coupons.dto";
 import {CouponType} from "./entities/couponTypes.entity";
 import {Coupon} from "./entities/coupons.entity";
 
 export abstract class AbstractCouponsRepository {
-    abstract createCoupon(couponDTO: CouponDTO): Promise<Coupon>
+    abstract createCoupon(createCouponDTO: CreateCouponDTO): Promise<Coupon>
     abstract createCouponType(couponTypeDTO: CouponTypeDTO): Promise<CouponType>;
-    abstract createCouponUUIDSerial(): string;
+    abstract createUUID(): string;
+    abstract getCouponByUUID(uuid: string): Promise<Coupon>;
+    abstract applyCouponsToOrder(applyCouponsToUserDTO: ApplyCouponsToOrderDTO): Promise<void>;
+    abstract rollbackCoupons(coupons: Coupon[]): Promise<void>;
+    abstract getAllCouponsByOrderID(order_id: number): Promise<Coupon[]>;
+    abstract getAllCouponsByUserID(user_id: number): Promise<Coupon[]>;
 }
-
-
-/**
- * controller layer
- * service layer
- * repository layer
- * */

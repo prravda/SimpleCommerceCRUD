@@ -23,6 +23,11 @@ export class Coupon extends Model {
     type_id: number;
 
     @AllowNull
+    @ForeignKey(() => User)
+    @Column
+    user_id: number;
+
+    @AllowNull
     @ForeignKey(() => Order)
     @Column
     order_id: number;
@@ -36,4 +41,6 @@ export class Coupon extends Model {
     user: User
     @BelongsTo(() => CouponType, 'type_id')
     couponType: CouponType
+    @BelongsTo(() => Order, 'order_id')
+    order: Order
 }

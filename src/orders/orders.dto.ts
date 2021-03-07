@@ -1,24 +1,25 @@
+import {Coupon} from "../coupons/entities/coupons.entity";
+import {Order} from "./entities/orders.entity";
+
 export interface CreateOrderDTO {
     user_id: number;
-    product_id: number;
     status_id: number;
-    purchased_price: number;
-    redundant: boolean;
-}
-
-export interface CreateProductDTO {
     name: string;
-    price: number;
+    raw_price: number;
     currency: string;
     url: string;
     contact: string;
+    redundant: boolean;
+    coupons: Coupon[];
 }
 
-export interface CreateOrderStatusDTO {
-    status: string;
-}
+export interface CalculatePurchasedPriceDTO {
+    coupons: Coupon[];
+    raw_price: number;
+    redundant: boolean;
+};
 
-export interface SetOrderStatusDTO {
-    id: number;
-    newStatus: string;
+export interface ChangeOrderStatusDTO {
+    order_id: number;
+    new_status: string;
 }

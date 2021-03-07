@@ -1,7 +1,11 @@
-export interface CouponDTO {
+import {Coupon} from "./entities/coupons.entity";
+
+export interface CreateCouponDTO {
+    uuid: string;
     type_id: number;
-    uuid_id?: number;
-    used?: boolean;
+    user_id?: number;
+    order_id?: number;
+    used: boolean;
 }
 
 export interface CouponTypeDTO {
@@ -11,12 +15,8 @@ export interface CouponTypeDTO {
     refundable: boolean;
 }
 
-export interface CouponUUIDDTO {
-    user_id?: number;
-    order_id?: number;
-}
-
-export interface CouponAndCouponUUIDDTO {
-    couponDTO: CouponDTO;
-    couponUUIDDTO?: CouponUUIDDTO;
+export interface ApplyCouponsToOrderDTO {
+    coupons: Coupon[];
+    order_id: number;
+    redundant: boolean;
 }
