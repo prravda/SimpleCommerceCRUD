@@ -1,23 +1,19 @@
-import { Table, Column, Model, DataType } from 'sequelize-typescript';
+import {Table, Column, Model, HasMany, Unique} from 'sequelize-typescript';
+import {Coupon} from "../coupons/entities/coupons.entity";
 
 @Table
-export class User extends Model<User> {
-    @Column({
-        type: DataType.STRING,
-        allowNull: false,
-    })
+export class User extends Model {
+    @Column
     name: string;
 
-    @Column({
-        type: DataType.STRING,
-        allowNull: false,
-        unique: true,
-    })
+    @Unique
+    @Column
     mail: string;
 
-    @Column({
-        type: DataType.STRING,
-        allowNull: false,
-    })
+    @Column
     password: string;
+
+    // relation
+    @HasMany(() => Coupon, 'user_id')
+    coupons: Coupon[]
 }
