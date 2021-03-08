@@ -185,13 +185,10 @@
 
 # DB Schema
 ## 처음 시도
-![image DB_Schema_Before]('public/DB_Schema_Before.png "Schema-BeforeRefactor");
+![image DB_Schema_Before](./public/DB_Schema_Before.png "Schema-BeforeRefactor");
 
 ## 재시도
-![image DB_Schema_Before]('public/DB_Schema_After.png "Schema-AfterRefactor");
+![image DB_Schema_Before](./public/DB_Schema_After.png "Schema-AfterRefactor");
 
 # UML Draft
-![image UML_Draft]('public/UML_Draft.png "UML_Draft");
-
-
-
+![image UML_Draft](./public/UML_Draft.png "UML_Draft");
